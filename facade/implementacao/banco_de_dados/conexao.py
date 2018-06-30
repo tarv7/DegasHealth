@@ -74,3 +74,41 @@ def verificaCRM(crm):
 	cursor.execute("SELECT * FROM funcionarios WHERE crm = ?", (crm,))
 
 	return len(cursor.fetchall())
+
+def busca(tabela, chave):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	if not chave.isnumeric():
+		coluna = 'nome'
+	else:
+		coluna = 'crm'
+
+	query = "SELECT nome, sexo, crm, nacionalidade, nascimento, admissao, formatura FROM %s WHERE %s = '%s'" % (tabela, coluna, chave)
+	cursor.execute(query)
+
+	medico = cursor.fetchone()
+	strMedico = '%'.join(medico)
+
+	conn.commit()
+	conn.close()
+	return [True, strMedico]
+
+def buscaColuna(tabela, crm, coluna):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	query = "SELECT " + coluna + " FROM " + tabela + " WHERE crm = " + crm
+	cursor.execute(query)
+
+	return cursor.fetchone()[0]
+
+def altera(tabela, crm, coluna, chave):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	query = "UPDATE " + tabela + " SET " + coluna + " = '" + chave + "' WHERE crm = " + crm
+	cursor.execute(query)
+
+	conn.commit()
+	conn.close()
