@@ -12,8 +12,8 @@ def testaCarc(palavra):
 def crmJaExiste(crm):
 	return db.verificaCRM(crm)
 
-def corenJaExiste(coren):
-	return db.verificaCOREN(coren)
+def corenJaExiste(tab, coren):
+	return db.verificaCOREN(tab, coren)
 
 def verificaDataInvalida(dataStr):
 	try:

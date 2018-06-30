@@ -44,70 +44,68 @@ class VerificarPangramaTests(unittest.TestCase):
 		res = novo.novoEnfermeiro("Maria do Bairro","F","136311","Brasil","22/01/1977","13/08/2005","07/11/1999");
 		self.assertEqual("Enfermeiro inserido!", res);
 
-'''
 	def test_2enfermeiroAposPersistencia(self):
-		novo = med.medico()
+		novo = enf.enfermeiro()
 
-		res = novo.novoMedico("Jonelice  Pinto","F","3566","Portugal","07/02/1989","28/9/2017","22/12/2012");
-		self.assertEqual("Medico inserido!", res);
+		res = novo.novoEnfermeiro("Alfarroba Cacau","F","1566","Portugal","07/02/1989","28/09/2017","22/12/2012");
+		self.assertEqual("Enfermeiro inserido!", res);
 
-		res = novo.novoMedico("Alvaro Degas","M","3566","Brasil","05/06/1989","28/09/2017","22/12/2012");
-		self.assertEqual("ERRO! CRM Já existente!", res);
+		res = novo.novoEnfermeiro("Olivia Oliveira das Olivas","M","1566","Brasil","05/06/1989","28/09/2017","22/12/2012");
+		self.assertEqual("ERRO! COREN Já existente!", res);
 
-		res = novo.novoMedico("Jaqueline  das Neves","F","89673","Brasil","12/02/1984","31/04/2013","05/07/2011");
+		res = novo.novoEnfermeiro("John  de Las Nieves","M","189673","Brasil","12/02/1984","31/04/2013","05/07/2011");
 		self.assertEqual("ERRO! Data Inválida!", res);
 
-		res = novo.novoMedico("Jaqueline  das Neves","F","89673","Brasil","12/02/1984","30/2/2013","05/07/2011");
+		res = novo.novoEnfermeiro("John  Gothic Ranger","M","189673","Brasil","12/02/1984","30/2/2013","05/07/2011");
 		self.assertEqual("ERRO! Data Inválida!", res);
 
-		res = novo.novoMedico("Jaqueline  das Neves","F","89673","Brasil","12/02/1984","31/3/2011","05/07/2013");
+		res = novo.novoEnfermeiro("Jaquelina  das Neves","F","189673","Brasil","12/02/1984","31/3/2011","05/07/2013");
 		self.assertEqual("ERRO! Inconsistencia de datas: Formatura posterior a admissão!", res);
 
-		res = novo.novoMedico("Jaqueline  das Neves","F","89673","Brasil","12/02/1984","31/05/2013","05/07/2011");
-		self.assertEqual("Medico inserido!", res);
+		res = novo.novoEnfermeiro("Bátima da Silva Sauro","F","189673","Brasil","12/02/1984","31/05/2013","05/07/2011");
+		self.assertEqual("Enfermeiro inserido!", res);
 
-		res = novo.encontraMedico("Nardelle Moraes");
-		self.assertEqual("Nardelle Moraes%M%97719%Brasil%26/08/1977%29/06/2012%28/01/2007", res);
+		res = novo.encontraEnfermeiro("Amadildo Maldonado");
+		self.assertEqual("Amadildo Maldonado%M%197719%Brasil%24/08/1969%29/06/2017%28/01/2016", res);
 
-		res = novo.encontraMedico("36311");
-		self.assertEqual("Larissa Pereira%F%36311%Brasil%22/01/1977%13/08/2005%07/11/1999", res);
+		res = novo.encontraEnfermeiro("151329");
+		self.assertEqual("Horáclides da Hora Certa%M%151329%Brasil%28/05/1962%22/07/1992%18/11/1988", res);
 
 	def test_3enfermeiroMaisApos(self):
-		novo = med.medico()
+		novo = enf.enfermeiro()
 
-		res = novo.alteraMedico("97719","Nome", "Jose Ferreira");
+		res = novo.alteraEnfermeiro("197719","Nome", "Arminho Amando Amador Amor Divino");
 		self.assertEqual("Alteracao executada com sucesso!", res);
-		res = novo.encontraMedico("97719");
-		self.assertEqual("Jose Ferreira%M%97719%Brasil%26/08/1977%29/06/2012%28/01/2007", res);
+		res = novo.encontraEnfermeiro("197719");
+		self.assertEqual("Arminho Amando Amador Amor Divino%M%197719%Brasil%24/08/1969%29/06/2017%28/01/2016", res);
 
-		res = novo.alteraMedico("46193","Sexo", "F");
+		res = novo.alteraEnfermeiro("151329","Sexo", "F");
 		self.assertEqual("Alteracao executada com sucesso!", res);
-		res = novo.encontraMedico("46193");
-		self.assertEqual("Rudinei  Rodrigues%F%46193%Brasil%28/05/1962%22/07/1992%18/11/1988", res);
+		res = novo.encontraEnfermeiro("151329");
+		self.assertEqual("Horáclides da Hora Certa%F%151329%Brasil%28/05/1962%22/07/1992%18/11/1988", res);
 
-		res = novo.alteraMedico("9614","Nacionalidade", "Italia");
+		res = novo.alteraEnfermeiro("19614","Nacionalidade", "Italia");
 		self.assertEqual("Alteracao executada com sucesso!", res);
-		res = novo.encontraMedico("9614");
-		self.assertEqual("Ailton  Carvalho%M%9614%Italia%26/07/1970%04/10/1999%02/11/1995", res);
+		res = novo.encontraEnfermeiro("19614");
+		self.assertEqual("Jalapeno Kino%M%19614%Italia%26/07/1970%04/10/1999%02/11/1995", res);
 
-		res = novo.alteraMedico("36311","DtNasc", "31/01/1971");
+		res = novo.alteraEnfermeiro("136311","DtNasc", "31/01/1971");
 		self.assertEqual("Alteracao executada com sucesso!", res);
-		res = novo.encontraMedico("36311");
-		self.assertEqual("Larissa Pereira%F%36311%Brasil%31/01/1971%13/08/2005%07/11/1999", res);
+		res = novo.encontraEnfermeiro("136311");
+		self.assertEqual("Maria do Bairro%F%136311%Brasil%31/01/1971%13/08/2005%07/11/1999", res);
 
-		res = novo.alteraMedico("3566","DtAdmiss", "19/07/2002");
+		res = novo.alteraEnfermeiro("1566","DtAdmiss", "19/02/2002");
 		self.assertEqual("ERRO! Inconsistencia de datas: Formatura posterior a admissão!", res);
 
-		res = novo.alteraMedico("3566","DtAdmiss", "19/07/2015");
+		res = novo.alteraEnfermeiro("1566","DtAdmiss", "19/07/2015");
 		self.assertEqual("Alteracao executada com sucesso!", res);
-		res = novo.encontraMedico("3566");
-		self.assertEqual("Jonelice  Pinto%F%3566%Portugal%07/02/1989%19/07/2015%22/12/2012", res);
+		res = novo.encontraEnfermeiro("1566");
+		self.assertEqual("Alfarroba Cacau%F%1566%Portugal%07/02/1989%19/07/2015%22/12/2012", res);
 
-		res = novo.alteraMedico("89673","DtFormatura", "30/03/2014");
+		res = novo.alteraEnfermeiro("189673","DtFormatura", "30/03/2014");
 		self.assertEqual("ERRO! Inconsistencia de datas: Formatura posterior a admissão!", res);
 
-		res = novo.alteraMedico("89673","DtFormatura", "30/03/2010");
+		res = novo.alteraEnfermeiro("189673","DtFormatura", "30/03/2010");
 		self.assertEqual("Alteracao executada com sucesso!", res);
-		res = novo.encontraMedico("89673");
-		self.assertEqual("Jaqueline  das Neves%F%89673%Brasil%12/02/1984%31/05/2013%30/03/2010", res);
-'''
+		res = novo.encontraEnfermeiro("189673");
+		self.assertEqual("Bátima da Silva Sauro%F%189673%Brasil%12/02/1984%31/05/2013%30/03/2010", res);

@@ -9,6 +9,7 @@ def iniciar():
 
 	criarTabMedicos()
 	criarTabEnfermeiros()
+	criarTabAuxiliares()
 	conn.commit()
 	conn.close()
 
@@ -66,21 +67,33 @@ def criarTabEnfermeiros():
 
 	conn.commit()
 	conn.close()
-
-def inserirMedico(tab, tupla):
+def criarTabAuxiliares():
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	cursor.execute("INSERT INTO " + tab + "(nome, crm, sexo, nacionalidade, nascimento, admissao, formatura) VALUES (?, ?, ?, ?, ?, ?, ?)", tupla)
+	cursor.execute(
+		"""
+		CREATE TABLE IF NOT EXISTS auxiliares(
+			id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+			nome TEXT NOT NULL,
+			coren TEXT NOT NULL,
+			sexo VARCHAR(1) NOT NULL,
+			nacionalidade TEXT NOT NULL,
+			nascimento TEXT NOT NULL,
+			admissao TEXT NOT NULL,
+			formatura TEXT NOT NULL
+		)
+		"""
+	)
 
 	conn.commit()
 	conn.close()
 
-def inserirEnfermeiro(tab, tupla):
+def inserir(tab, crmcoren, tupla):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	cursor.execute("INSERT INTO " + tab + "(nome, coren, sexo, nacionalidade, nascimento, admissao, formatura) VALUES (?, ?, ?, ?, ?, ?, ?)", tupla)
+	cursor.execute("INSERT INTO " + tab + "(nome, "+crmcoren+", sexo, nacionalidade, nascimento, admissao, formatura) VALUES (?, ?, ?, ?, ?, ?, ?)", tupla)
 
 	conn.commit()
 	conn.close()
@@ -108,24 +121,24 @@ def verificaCRM(crm):
 
 	return len(cursor.fetchall())
 
-def verificaCOREN(coren):
+def verificaCOREN(tab, coren):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	cursor.execute("SELECT * FROM enfermeiros WHERE coren = ?", (coren,))
+	cursor.execute("SELECT * FROM "+tab+" WHERE coren = ?", (coren,))
 
 	return len(cursor.fetchall())
 
-def busca(tabela, chave):
+def busca(tabela, crmcoren, chave):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
 	if not chave.isnumeric():
 		coluna = 'nome'
 	else:
-		coluna = 'crm'
+		coluna = crmcoren
 
-	query = "SELECT nome, sexo, crm, nacionalidade, nascimento, admissao, formatura FROM %s WHERE %s = '%s'" % (tabela, coluna, chave)
+	query = "SELECT nome, sexo, "+crmcoren+", nacionalidade, nascimento, admissao, formatura FROM %s WHERE %s = '%s'" % (tabela, coluna, chave)
 	cursor.execute(query)
 
 	medico = cursor.fetchone()
@@ -135,20 +148,20 @@ def busca(tabela, chave):
 	conn.close()
 	return [True, strMedico]
 
-def buscaColuna(tabela, crm, coluna):
+def buscaColuna(tabela, crmcoren, crmcorenValue, coluna):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	query = "SELECT " + coluna + " FROM " + tabela + " WHERE crm = " + crm
+	query = "SELECT " + coluna + " FROM " + tabela + " WHERE "+crmcoren+" = " + crmcorenValue
 	cursor.execute(query)
 
 	return cursor.fetchone()[0]
 
-def altera(tabela, crm, coluna, chave):
+def altera(tabela, crmcoren, crmcorenValue, coluna, chave):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	query = "UPDATE " + tabela + " SET " + coluna + " = '" + chave + "' WHERE crm = " + crm
+	query = "UPDATE " + tabela + " SET " + coluna + " = '" + chave + "' WHERE "+crmcoren+" = " + crmcorenValue
 	cursor.execute(query)
 
 	conn.commit()

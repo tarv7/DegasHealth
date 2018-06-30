@@ -2,23 +2,23 @@ import implementacao.banco_de_dados.conexao as db
 from implementacao.funcionario import *
 import implementacao.utils.utils as util
 
-# Nome, CRM, Sexo, Nacionalidade, Data Nasc., Data Admiss., Data Formatura
-class medico(Funcionario):
+# Nome, COREN, Sexo, Nacionalidade, Data Nasc., Data Admiss., Data Formatura
+class auxiliar(Funcionario):
 	def __init__(self):
 		db.iniciar()
 		super().__init__()
-	def novoMedico(self, nome, sexo, crm, nac, nasc, admis, form):
+	def novoAuxiliar(self, nome, sexo, coren, nac, nasc, admis, form):
 		# Testa nome
 		if util.testaCarc(nome) != 'a':
-			return "ERRO! Caracter " + util.testaCarc(nome) + " Invalido!"
+			return "ERRO! Caracter '" + util.testaCarc(nome) + "' Invalido!"
 
 		# Testa Nacionalidade
 		if util.testaCarc(nac) != 'a':
-			return "ERRO! Caracter " + util.testaCarc(nac) + " Invalido!"
+			return "ERRO! Caracter '" + util.testaCarc(nac) + "' Invalido!"
 
-		# Verifica se CRM ja existe
-		if util.crmJaExiste(crm) > 0:
-			return "ERRO! CRM Já existente!"
+		# Verifica se COREM ja existe
+		if util.corenJaExiste('auxiliares', coren) > 0:
+			return "ERRO! COREN Já existente!"
 
 		if util.verificaDataInvalida(nasc) or util.verificaDataInvalida(admis) or util.verificaDataInvalida(form):
 			return "ERRO! Data Inválida!"
@@ -30,17 +30,17 @@ class medico(Funcionario):
 		admis = util.conserta(admis)
 		form = util.conserta(form)
 
-		db.inserir('medicos', 'crm', (nome, crm, sexo, nac, nasc, admis, form))
-		return 'Medico inserido!'
+		db.inserir('auxiliares', 'coren', (nome, coren, sexo, nac, nasc, admis, form))
+		return 'Auxiliar/Técnico inserido!'
 
-	def encontraMedico(self, chave):
-		busca = db.busca("medicos", 'crm', chave)
+	def encontraAuxiliar(self, chave):
+		busca = db.busca("auxiliares", 'coren', chave)
 		if busca[0] == True:
 			return busca[1]
 
 #Alteracao executada com sucesso!
 #ERRO! Inconsistencia de datas: Formatura posterior a admissão!
-	def alteraMedico(self, crm, coluna, chave):
+	def alteraAuxiliar(self, coren, coluna, chave):
 		colunas = {}
 		colunas["Nome"] = "nome"
 		colunas["Sexo"] = "sexo"
@@ -50,13 +50,13 @@ class medico(Funcionario):
 		colunas["DtFormatura"] = "formatura"
 
 		if colunas[coluna] == "admissao":
-			form = db.buscaColuna('medicos', 'crm', crm, 'formatura')
+			form = db.buscaColuna('auxiliares', 'coren', coren, 'formatura')
 			if util.verificaDatasAnteriores(chave, form) < 0:
 				return "ERRO! Inconsistencia de datas: Formatura posterior a admissão!"
 		elif colunas[coluna] == "formatura":
-			admis = db.buscaColuna('medicos', 'crm', crm, 'admissao')
+			admis = db.buscaColuna('auxiliares', 'coren', coren, 'admissao')
 			if util.verificaDatasAnteriores(admis, chave) < 0:
 				return "ERRO! Inconsistencia de datas: Formatura posterior a admissão!"
 		
-		altera = db.altera('medicos', 'crm', crm, colunas[coluna], chave)
+		altera = db.altera('auxiliares', 'coren', coren, colunas[coluna], chave)
 		return "Alteracao executada com sucesso!"
