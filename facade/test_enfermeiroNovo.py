@@ -1,50 +1,51 @@
 import unittest
-import implementacao.medico as med
+import implementacao.enfermeiro as enf
 import implementacao.banco_de_dados.conexao as db
 
-db.deletarTabela('medicos')
+db.deletarTabela('enfermeiros')
 
 class VerificarPangramaTests(unittest.TestCase):
-	def test_1medicoNovo(self):
-		novo = med.medico()
+	def test_1enfermeiroNovo(self):
+		novo = enf.enfermeiro()
 
-		res = novo.novoMedico("Nardelle Moraes","M","97719","Brasil","26/08/1977","29/06/2012","28/01/2007")
-		self.assertEqual("Medico inserido!", res)
+		res = novo.novoEnfermeiro("Amadildo Maldonado","M","197719","Brasil","24/08/1969","29/06/2017","28/01/2016");
+		self.assertEqual("Enfermeiro inserido!", res);
 
-		res = novo.novoMedico("Rudinei  Rodrigues","M","46193","Brasil","28/05/1962","22/7/1992","18/11/1988");
-		self.assertEqual("Medico inserido!", res)
+		res = novo.novoEnfermeiro("Bruna%  Surfer","F","151329","Brasil","18/04/1972","22/07/1999","18/11/1990");
+		self.assertEqual("ERRO! Caracter '%' Invalido!", res);
 
-		res = novo.novoMedico("Larissa Pereira","F","36311","Brasil","22/01/1977","13/08/2005","07/11/1999");
-		self.assertEqual("Medico inserido!", res)
+		res = novo.novoEnfermeiro("Carine  R#drigues","F","151329","Brasil","28/05/1962","22/7/1992","18/11/1988");
+		self.assertEqual("ERRO! Caracter '#' Invalido!", res);
 
-		res = novo.novoMedico("Ailton  Carvalho","M","9614","Brasil","26/07/1970","04/10/1999","02/11/1995");
-		self.assertEqual("Medico inserido!", res)
+		res = novo.novoEnfermeiro("Doravante  Alavante","F","151329","Br@sil","24/01/1982","22/7/2012","18/11/2000");
+		self.assertEqual("ERRO! Caracter '@' Invalido!", res);
 
-		res = novo.novoMedico("Tarcila do Amaral","F","9614","Brasil","26/07/1970","04/10/1999","02/11/1995");
-		self.assertEqual("ERRO! CRM Já existente!", res)
+		res = novo.novoEnfermeiro("Edilen%e  dos Santos","F","151329","Br@sil","03/12/1991","22/1/2018","18/11/2017");
+		self.assertEqual("ERRO! Caracter '%' Invalido!", res);
 
-		res = novo.novoMedico("Rudinei  Rodrigues","M","46193","Brasil","28/05/1962","22/7/1992","18/11/1988");
-		self.assertEqual("ERRO! CRM Já existente!", res)
-		
-		res = novo.novoMedico("Rudine%  Rodrigues","M","46193","Brasil","28/05/1962","22/7/1992","18/11/1988")
-		self.assertEqual("ERRO! Caracter % Invalido!", res)
+		res = novo.novoEnfermeiro("Fábio  J#nior","M","151329","Br@sil","28/05/1962","23/03/1992","28/12/1988");
+		self.assertEqual("ERRO! Caracter '#' Invalido!", res);
 
-		res = novo.novoMedico("Rudinei  R#drigues","M","46193","Brasil","28/05/1962","22/7/1992","18/11/1988")
-		self.assertEqual("ERRO! Caracter # Invalido!", res)
+		res = novo.novoEnfermeiro("Geremilda  L@jot#","F","151329","Brasil","18/05/1962","22/07/1992","18/11/1988");
+		self.assertEqual("ERRO! Caracter '@' Invalido!", res);
 
-		res = novo.novoMedico("Rudinei  Rodrigues","M","46193","Br@sil","28/05/1962","22/7/1992","18/11/1988")
-		self.assertEqual("ERRO! Caracter @ Invalido!", res)
+		res = novo.novoEnfermeiro("Horáclides da Hora Certa","M","151329","Brasil","28/05/1962","22/07/1992","18/11/1988");
+		self.assertEqual("Enfermeiro inserido!", res);
 
-		res = novo.novoMedico("Rudine%  Rodrigues","M","46193","Br@sil","28/05/1962","22/7/1992","18/11/1988");
-		self.assertEqual("ERRO! Caracter % Invalido!", res)
+		res = novo.novoEnfermeiro("Ítalo  Pinto Vloger","M","151329","Brasil","28/05/1962","22/7/1992","18/11/1988");
+		self.assertEqual("ERRO! COREN Já existente!", res);
 
-		res = novo.novoMedico("Rudinei  R#drigues","M","46193","Br@sil","28/05/1962","22/7/1992","18/11/1988");
-		self.assertEqual("ERRO! Caracter # Invalido!", res)
+		res = novo.novoEnfermeiro("Jalapeno Kino","M","19614","Brasil","26/07/1970","04/10/1999","02/11/1995");
+		self.assertEqual("Enfermeiro inserido!", res);
 
-		res = novo.novoMedico("Rudinei  R@drig#es","M","46193","Brasil","28/05/1962","22/7/1992","18/11/1988");
-		self.assertEqual("ERRO! Caracter @ Invalido!", res)
+		res = novo.novoEnfermeiro("Larissa de Las Dolores","F","19614","Brasil","26/07/1970","04/10/1999","02/11/1995");
+		self.assertEqual("ERRO! COREN Já existente!", res);
 
-	def test_2medicoAposPersistencia(self):
+		res = novo.novoEnfermeiro("Maria do Bairro","F","136311","Brasil","22/01/1977","13/08/2005","07/11/1999");
+		self.assertEqual("Enfermeiro inserido!", res);
+
+'''
+	def test_2enfermeiroAposPersistencia(self):
 		novo = med.medico()
 
 		res = novo.novoMedico("Jonelice  Pinto","F","3566","Portugal","07/02/1989","28/9/2017","22/12/2012");
@@ -71,7 +72,7 @@ class VerificarPangramaTests(unittest.TestCase):
 		res = novo.encontraMedico("36311");
 		self.assertEqual("Larissa Pereira%F%36311%Brasil%22/01/1977%13/08/2005%07/11/1999", res);
 
-	def test_3medicoMaisApos(self):
+	def test_3enfermeiroMaisApos(self):
 		novo = med.medico()
 
 		res = novo.alteraMedico("97719","Nome", "Jose Ferreira");
@@ -109,3 +110,4 @@ class VerificarPangramaTests(unittest.TestCase):
 		self.assertEqual("Alteracao executada com sucesso!", res);
 		res = novo.encontraMedico("89673");
 		self.assertEqual("Jaqueline  das Neves%F%89673%Brasil%12/02/1984%31/05/2013%30/03/2010", res);
+'''

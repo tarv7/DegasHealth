@@ -1,10 +1,3 @@
-/*-------------------------Medico------------------------------*/
-// novo medico: Nome, CRM, Sexo, Nacionalidade, Data Nasc., Data Admiss., Data Formatura
-
-// Teste apos persistencia!
-
-// Mais testes apos nova persistencia
-
 /*-------------------------Enfermeiro------------------------------*/
 // novoEnfermeiro: Nome, Sexo, COREN, Nacionalidade, Data Nasc., Data Admiss., Data Formatura
 

@@ -12,6 +12,9 @@ def testaCarc(palavra):
 def crmJaExiste(crm):
 	return db.verificaCRM(crm)
 
+def corenJaExiste(coren):
+	return db.verificaCOREN(coren)
+
 def verificaDataInvalida(dataStr):
 	try:
 		dt = datetime.strptime(dataStr, "%d/%m/%Y")

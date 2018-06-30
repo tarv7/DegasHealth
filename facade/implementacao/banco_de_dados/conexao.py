@@ -7,7 +7,8 @@ def iniciar():
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	criarTabFuncionarios()
+	criarTabMedicos()
+	criarTabEnfermeiros()
 	conn.commit()
 	conn.close()
 
@@ -20,15 +21,14 @@ def deletarTabela(tabela):
 	conn.commit()
 	conn.close()
 
-def criarTabFuncionarios():
+def criarTabMedicos():
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
 	cursor.execute(
 		"""
-		CREATE TABLE IF NOT EXISTS funcionarios(
+		CREATE TABLE IF NOT EXISTS medicos(
 			id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-			tipo TEXT NOT NULL,
 			nome TEXT NOT NULL,
 			crm TEXT NOT NULL,
 			sexo VARCHAR(1) NOT NULL,
@@ -43,11 +43,44 @@ def criarTabFuncionarios():
 	conn.commit()
 	conn.close()
 
-def inserir(tab, tupla):
+# COREN -> Conselho Regional de Enfermagem
+# novoEnfermeiro: Nome, Sexo, COREN, Nacionalidade, Data Nasc., Data Admiss., Data Formatura
+def criarTabEnfermeiros():
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	cursor.execute("INSERT INTO " + tab + "(tipo, nome, crm, sexo, nacionalidade, nascimento, admissao, formatura) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", tupla)
+	cursor.execute(
+		"""
+		CREATE TABLE IF NOT EXISTS enfermeiros(
+			id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+			nome TEXT NOT NULL,
+			coren TEXT NOT NULL,
+			sexo VARCHAR(1) NOT NULL,
+			nacionalidade TEXT NOT NULL,
+			nascimento TEXT NOT NULL,
+			admissao TEXT NOT NULL,
+			formatura TEXT NOT NULL
+		)
+		"""
+	)
+
+	conn.commit()
+	conn.close()
+
+def inserirMedico(tab, tupla):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	cursor.execute("INSERT INTO " + tab + "(nome, crm, sexo, nacionalidade, nascimento, admissao, formatura) VALUES (?, ?, ?, ?, ?, ?, ?)", tupla)
+
+	conn.commit()
+	conn.close()
+
+def inserirEnfermeiro(tab, tupla):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	cursor.execute("INSERT INTO " + tab + "(nome, coren, sexo, nacionalidade, nascimento, admissao, formatura) VALUES (?, ?, ?, ?, ?, ?, ?)", tupla)
 
 	conn.commit()
 	conn.close()
@@ -58,7 +91,7 @@ def mostrarTodos():
 	cursor = conn.cursor()
 	# lendo os dados
 	cursor.execute("""
-	SELECT * FROM funcionarios;
+	SELECT * FROM medicos;
 	""")
 
 	for linha in cursor.fetchall():
@@ -71,7 +104,15 @@ def verificaCRM(crm):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
 
-	cursor.execute("SELECT * FROM funcionarios WHERE crm = ?", (crm,))
+	cursor.execute("SELECT * FROM medicos WHERE crm = ?", (crm,))
+
+	return len(cursor.fetchall())
+
+def verificaCOREN(coren):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	cursor.execute("SELECT * FROM enfermeiros WHERE coren = ?", (coren,))
 
 	return len(cursor.fetchall())
 
