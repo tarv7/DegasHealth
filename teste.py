@@ -1,5 +1,3 @@
-from datetime import datetime
+dsa = float("2221.2")
 
-dt = datetime.strptime("31/4/2006", "%d/%m/%Y")
-
-print(dt)
+print(type(dsa) == int or type(dsa) == float)

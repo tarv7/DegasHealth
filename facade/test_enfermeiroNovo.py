@@ -4,7 +4,7 @@ import implementacao.banco_de_dados.conexao as db
 
 db.deletarTabela('enfermeiros')
 
-class VerificarPangramaTests(unittest.TestCase):
+class EnfermeiroTests(unittest.TestCase):
 	def test_1enfermeiroNovo(self):
 		novo = enf.enfermeiro()
 

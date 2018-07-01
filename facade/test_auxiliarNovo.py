@@ -4,7 +4,7 @@ import implementacao.banco_de_dados.conexao as db
 
 db.deletarTabela('auxiliares')
 
-class VerificarPangramaTests(unittest.TestCase):
+class AuxiliarTests(unittest.TestCase):
 	def test_1auxiliarNovo(self):
 		novo = aux.auxiliar()
 
