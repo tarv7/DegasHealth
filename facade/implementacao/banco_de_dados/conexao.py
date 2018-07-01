@@ -15,6 +15,7 @@ def iniciar():
 	criarTabEquipamentos()
 	criarTabTombos()
 	criarTabMateriais()
+	criarTabAssociacoes()
 	conn.commit()
 	conn.close()
 
@@ -184,6 +185,24 @@ def criarTabMateriais():
 	conn.commit()
 	conn.close()
 
+def criarTabAssociacoes():
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	cursor.execute(
+		"""
+		CREATE TABLE IF NOT EXISTS associacoes(
+			id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+			fk_proc_cod TEXT NOT NULL,
+			fk_mat_cod TEXT,
+			fk_equi_cod TEXT
+		)
+		"""
+	)
+
+	conn.commit()
+	conn.close()
+
 def inserir(tab, crmcoren, tupla):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
@@ -234,6 +253,16 @@ def inserirMaterial(tupla):
 	cursor = conn.cursor()
 
 	cursor.execute("INSERT INTO materiais (cod, desc, quant) VALUES (?, ?, ?)", tupla)
+
+	conn.commit()
+	conn.close()
+
+def inserirAsso(coluna, tupla):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	query = ("INSERT INTO associacoes (fk_proc_cod, %s) VALUES (%s, %s)" % (coluna, tupla[0], tupla[1]))
+	cursor.execute(query)
 
 	conn.commit()
 	conn.close()
@@ -375,3 +404,27 @@ def jaTombado(cod, tombo):
 		return False
 	else:
 		return True
+
+def buscaListaProc(coluna, cod):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	if coluna == 'fk_mat_cod':
+		tab = 'materiais'
+		outro = 'fk_equi_cod'
+	else:
+		tab = 'equipamentos'
+		outro = 'fk_mat_cod'
+
+	query = ("SELECT %s FROM associacoes WHERE fk_proc_cod = %s AND %s IS NULL" % (coluna, cod, outro))
+	cursor.execute(query)
+
+	codsList = cursor.fetchall()
+
+
+	descList = []
+	for cod in codsList:
+		cursor.execute("SELECT desc FROM "+ tab +" WHERE cod = ?", cod)
+		descList.append(cursor.fetchone()[0])
+
+	return '%'.join(descList)

@@ -5,7 +5,7 @@ import implementacao.banco_de_dados.conexao as db
 db.deletarTabela('especialidades')
 
 class EspecialidadeTests(unittest.TestCase):
-	def test_1procedimentoNovo(self):
+	def test_1especialidadeNovo(self):
 		novo = esp.especialidade()
 
 		res = novo.novaEspecialidade("594","Ginecologia");

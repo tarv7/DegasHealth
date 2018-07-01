@@ -1,13 +1,13 @@
 import unittest
-import implementacao.equipamento as aqui
+import implementacao.equipamento as equi
 import implementacao.banco_de_dados.conexao as db
 
 db.deletarTabela('equipamentos')
 db.deletarTabela('tombos')
 
-class ProcedimentoTests(unittest.TestCase):
+class EquipamentoTests(unittest.TestCase):
 	def test_1equipamentoNovo(self):
-		novo = aqui.equipamento()
+		novo = equi.equipamento()
 
 		res = novo.novoEquipamento("912","Mesa de Cirurgia","35000");
 		self.assertEqual("Equipamento cadastrado com sucesso", res);

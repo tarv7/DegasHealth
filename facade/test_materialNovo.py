@@ -4,8 +4,8 @@ import implementacao.banco_de_dados.conexao as db
 
 db.deletarTabela('materiais')
 
-class ProcedimentoTests(unittest.TestCase):
-	def test_1equipamentoNovo(self):
+class MaterialTests(unittest.TestCase):
+	def test_1materialNovo(self):
 		novo = mat.material()
 
 		res = novo.novoMaterial("2415","Fio de Sutura","2");

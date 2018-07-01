@@ -583,8 +583,8 @@ public class FacadeTest {
             res = facade.novoMaterial("1111","Anestesia Local","40");
             assertEquals("Material Cadastrado com sucesso", res);
 
-///*-------------------------------------agora fazendo associa��es: procedimentos soncomem materiais e usam equipamentos-----*/
-
+///*-------------------------------------agora fazendo associa��es: procedimentos consomem materiais e usam equipamentos-----*/
+//                                          cod_procedimento, cod_material
             facade = new Facade();
             res = facade.materialProcedimento("763236","2415"); // Ponte de Safena consome Fio de Sutura
             assertEquals("Material Incluido com sucesso no procedimento", res);
@@ -595,6 +595,7 @@ public class FacadeTest {
             res = facade.materialProcedimento("763236","1110"); // Ponte de Safena consome Anestesia Geral
             assertEquals("Material Incluido com sucesso no procedimento", res);
 
+//                                          cod_procedimento, cod_equipamento
             res = facade.equipamentoProcedimento("763236","912"); // Ponte de Safena necessita do apoio de Mesa de Cirurgia
             assertEquals("Equipamento Incluido com sucesso no procedimento", res);
             res = facade.equipamentoProcedimento("763236","685"); // Ponte de Safena necessita do apoio de Raio X

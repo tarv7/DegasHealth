@@ -6,3 +6,4 @@ python3 -m unittest test_procedimentoNovo.py -v
 python3 -m unittest test_especialidadeNovo.py -v
 python3 -m unittest test_equipamentoNovo.py -v
 python3 -m unittest test_materialNovo.py -v
+python3 -m unittest test_associacaoNovo.py -v
