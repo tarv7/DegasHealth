@@ -14,6 +14,7 @@ def iniciar():
 	criarTabEspecialidades()
 	criarTabEquipamentos()
 	criarTabTombos()
+	criarTabMateriais()
 	conn.commit()
 	conn.close()
 
@@ -165,6 +166,24 @@ def criarTabTombos():
 	conn.commit()
 	conn.close()
 
+def criarTabMateriais():
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	cursor.execute(
+		"""
+		CREATE TABLE IF NOT EXISTS materiais(
+			id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+			cod TEXT NOT NULL,
+			desc TEXT NOT NULL,
+			quant TEXT NOT NULL
+		)
+		"""
+	)
+
+	conn.commit()
+	conn.close()
+
 def inserir(tab, crmcoren, tupla):
 	conn = sqlite3.connect('banco.db')
 	cursor = conn.cursor()
@@ -206,6 +225,15 @@ def inserirTombo(tupla):
 	cursor = conn.cursor()
 
 	cursor.execute("INSERT INTO tombos (fk_equi_cod, tombo) VALUES (?, ?)", tupla)
+
+	conn.commit()
+	conn.close()
+
+def inserirMaterial(tupla):
+	conn = sqlite3.connect('banco.db')
+	cursor = conn.cursor()
+
+	cursor.execute("INSERT INTO materiais (cod, desc, quant) VALUES (?, ?, ?)", tupla)
 
 	conn.commit()
 	conn.close()

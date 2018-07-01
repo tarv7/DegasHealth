@@ -1,0 +1,19 @@
+#!/bin/sh
+python3 -m unittest test_medicoNovo.py -vpython3 -m unittest test_medicoNovo.py -v
+
+
+ 2176  python3 -m unittest test_especialidadeNovo.py -v
+ 2177  python3 -m unittest test_equipamentoNovo.py -v
+2178  python3 -m unittest test_medicoNovo.py -v 
+ 2179  python3 -m unittest test_enfermeiroNovo.py -v 
+ 2180  python3 -m unittest test_auxiliarNovo.py -v
+ 2181  python3 -m unittest test_equipamentoNovo.py -v
+ 2182  python3 -m unittest test_medicoNovo.py -v 
+ 2183  python3 -m unittest test_enfermeiroNovo.py -v 
+ 2184  python3 -m unittest test_auxiliarNovo.py -v
+ 2185  python3 -m unittest test_equipamentoNovo.py -v
+ 2186  python3 -m unittest test_especialidadeNovo.py -v
+ 2187  python3 -m unittest test_procedimentoNovo.py -v
+ 2188  python3 -m unittest test_equipamentoNovo.py -v
+ 2189  python3 -m unittest test_materialNovo.py -v
+
